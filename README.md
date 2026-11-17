@@ -4,10 +4,10 @@ An educational **C11/OpenMP project** for exploring parallel search, loop schedu
 
 ## Files
 
-- `fingerprint_omp.c` — complete standalone C11/OpenMP implementation (sequential baseline; parallel static, dynamic and guided; early cancellation; results and per-thread CSV).
-- `prepare_socofing.py` — optional `.BMP` -> grayscale raw -> WSQ -> NIST MINDTCT `.xyt` conversion and manifest creation, **requires Pillow and NBIS utilities**.
-- `plot_results.py` — plots speedup, efficiency, early-stop savings and per-thread matching time.
-- `tests/test_smoke.py` — automated smoke tests for synthetic and `.xyt` inputs.
+- `fingerprint_omp.c` â€” complete standalone C11/OpenMP implementation (sequential baseline; parallel static, dynamic and guided; early cancellation; results and per-thread CSV).
+- `prepare_socofing.py` â€” optional `.BMP` -> grayscale raw -> WSQ -> NIST MINDTCT `.xyt` conversion and manifest creation, **requires Pillow and NBIS utilities**.
+- `plot_results.py` â€” plots speedup, efficiency, early-stop savings and per-thread matching time.
+- `tests/test_smoke.py` â€” automated smoke tests for synthetic and `.xyt` inputs.
 
 ## 1. Compile
 
@@ -151,11 +151,21 @@ GitHub Actions runs the tests on Linux with `OMP_CANCELLATION` both enabled and 
 
 ## 8. Reproducible results
 
-CSV files and plots are generated locally and ignored by Git. Use the full benchmark command above to regenerate them. When sharing performance results, record your CPU, operating system, compiler version and flags, OpenMP runtime/settings, and benchmark command alongside the plots. Timings are hardware-dependent; synthetic results do not measure real-world identification accuracy. Per-match timing instrumentation adds overhead to the parallel run.
+The repository includes the saved sample benchmark outputs:
+
+- [results.csv](results.csv): 450 measurements across three database sizes, five thread counts, three schedules, early stopping on/off, and five repetitions.
+- [thread_results.csv](thread_results.csv): per-thread comparison counts, matching time, and idle-plus-overhead estimates.
+- [All 25 plotted graphs](plots/README.md): execution time, speedup, efficiency, early stopping, and thread balance.
+
+![Full-search speedup for 60,000 templates](plots/speedup_60000.png)
+
+These are the existing saved outputs, preserved unchanged rather than rerun after the source fixes. The original run did not record complete hardware/compiler/runtime metadata, so treat the timings as illustrative samples. Timings are hardware-dependent; synthetic results do not measure real-world identification accuracy. Per-match timing instrumentation adds overhead to the parallel run.
+
+Use the full benchmark command in section 3 and plotting command in section 4 to produce a new run. These commands overwrite the tracked sample files; use `--csv`, `--thread-csv`, and the plotter's `--output` option to save separate outputs. For future comparisons, record your CPU, operating system, compiler version and flags, OpenMP runtime/settings, and exact benchmark command.
 
 ## 9. Publishing on GitHub
 
-Use the directory containing this README as the repository root. The source, handmade examples, tests, dependency list, license, and GitHub Actions workflow belong in the repository. The `.gitignore` excludes local executables, caches, result backups, generated plots, and datasets. Keep downloaded biometric data outside the repository.
+Use the directory containing this README as the repository root. The source, handmade examples, tests, dependency list, license, and GitHub Actions workflow belong in the repository. The sample CSVs and plots are tracked. The `.gitignore` excludes local executables, caches, result backups, and datasets. Keep downloaded biometric data outside the repository.
 
 To upload through the GitHub website, use the contents of the prepared `fingerprint-openmp-github.zip` archive, including `.github`, `.gitignore`, and `.gitattributes`. Do not upload the ZIP itself as the source repository. Alternatively, initialize Git in this directory and review `git status --short` before committing.
 

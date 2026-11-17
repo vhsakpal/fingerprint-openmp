@@ -12,11 +12,8 @@ __pycache__/
 venv/
 .pytest_cache/
 
-# Local benchmark output (regenerate using the README)
-/results.csv
-/thread_results.csv
+# Local benchmark backups (sample CSVs and plots are tracked)
 *.backup-*.csv
-/plots/
 
 # Downloaded biometric data and extraction output
 /data/
