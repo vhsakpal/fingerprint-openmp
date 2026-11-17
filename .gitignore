@@ -1,0 +1,37 @@
+# Build products
+/fingerprint_omp
+*.exe
+*.o
+*.a
+*.dll
+
+# Python environments and caches
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Local benchmark output (regenerate using the README)
+/results.csv
+/thread_results.csv
+*.backup-*.csv
+/plots/
+
+# Downloaded biometric data and extraction output
+/data/
+/SOCOFing/
+*.bmp
+*.BMP
+*.wsq
+*.raw
+*.xyt
+!examples/*.xyt
+
+# Local configuration
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+*.zip

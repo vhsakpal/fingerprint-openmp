@@ -1,0 +1,31 @@
+name: Build and test
+
+on: [push, pull_request, workflow_dispatch]
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        cancellation: ['false', 'true']
+    env:
+      OMP_CANCELLATION: ${{ matrix.cancellation }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build with warnings enabled
+        run: make
+      - name: Run fresh-build tests
+        run: python tests/test_smoke.py
+      - name: Install optional Python dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Generate and plot a small benchmark
+        run: |
+          ./fingerprint_omp --synthetic 100 --query-index 30 --threads 2 --repeats 1
+          MPLBACKEND=Agg python plot_results.py
+          python prepare_socofing.py --help
